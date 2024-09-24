@@ -5,6 +5,7 @@ import {
   Image,
   SafeAreaView,
   TouchableWithoutFeedback,
+  useColorScheme,
 } from "react-native";
 import React, { useCallback, useEffect } from "react";
 import { images } from "@/constants";

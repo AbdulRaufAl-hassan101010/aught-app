@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  KeyboardAvoidingView,
-  ScrollView,
-  Platform,
-} from "react-native";
+import { Text, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormField from "@/components/FormField";
@@ -27,14 +21,14 @@ const signUp = () => {
   };
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className="bg-primary h-full dark:bg-primary-dark">
       <KeyboardAvoidingView
         behavior={Platform.OS ? "padding" : "height"}
         style={{ flex: 1 }}
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : -500}
       >
         <ScrollView className="w-full h-full px-4">
-          <Text className="text-white mt-7 font-psemibold text-3xl text-wrap">
+          <Text className="mt-7 font-psemibold text-3xl text-wrap text-primary-dark dark:text-white">
             Sign Up
           </Text>
           <FormField
@@ -68,7 +62,7 @@ const signUp = () => {
 
           <CustomButton title="Sign Up" containerStyle="mt-10" />
 
-          <Text className="text-gray-100 mt-7 text-center font-pregular text-md">
+          <Text className="text-gray-100 mt-7 text-center font-pregular text-md text-base">
             Already have an account?{" "}
             <Link
               href={`/sign-in` as Href}

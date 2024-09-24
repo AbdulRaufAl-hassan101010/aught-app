@@ -1,6 +1,5 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import React from "react";
-import { isLoading } from "expo-font";
 import { TouchableOpacityProps } from "react-native-gesture-handler";
 
 type CustomButtonProps = {
@@ -25,7 +24,7 @@ const CustomButton = ({
       {...props}
     >
       <Text className={`text-white text-lg font-psemibold ${titleStyle}`}>
-        {title}
+        {isLoading ? "Loading..." : title}
       </Text>
     </TouchableOpacity>
   );

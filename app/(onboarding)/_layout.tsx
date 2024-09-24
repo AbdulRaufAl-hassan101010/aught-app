@@ -16,6 +16,9 @@ const _layout = () => {
         }}
       >
         <Stack.Screen name="onboarding1" />
+        <Stack.Screen name="onboarding2" />
+        <Stack.Screen name="onboarding3" />
+        <Stack.Screen name="onboarding4" />
       </Stack>
       <StatusBar style="light" animated />
     </>

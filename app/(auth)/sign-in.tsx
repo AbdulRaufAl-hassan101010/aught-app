@@ -1,9 +1,15 @@
-import { View, Text, KeyboardAvoidingView, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  ScrollView,
+  useColorScheme,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
-import { Href, Link } from "expo-router";
+import { Href, Link, router } from "expo-router";
 
 const signIn = () => {
   const [form, setForm] = useState({
@@ -19,10 +25,10 @@ const signIn = () => {
   };
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className=" bg-primary  dark:bg-primary-dark h-full">
       <ScrollView className="w-full h-full px-4">
         <KeyboardAvoidingView behavior="position" className="flex-1">
-          <Text className="text-white mt-7 font-psemibold text-3xl text-wrap">
+          <Text className=" text-primary-dark mt-7 font-psemibold text-3xl text-wrap dark:text-white">
             Sign In
           </Text>
 
@@ -41,9 +47,13 @@ const signIn = () => {
             keyboardType="visible-password"
           />
 
-          <CustomButton title="Sign In" containerStyle="mt-10" />
+          <CustomButton
+            title="Sign In"
+            containerStyle="mt-10"
+            onPress={() => router.replace("/home" as Href)}
+          />
 
-          <Text className="text-gray-100 mt-7 text-center font-pregular text-md">
+          <Text className="dark:text-gray-100 text-gray-400 mt-7 text-center font-pregular text-base">
             Don't have an account?{" "}
             <Link
               href={`/sign-up` as Href}

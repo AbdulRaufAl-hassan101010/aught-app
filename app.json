@@ -3,7 +3,7 @@
     "name": "aught-rn",
     "slug": "aught-rn",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
@@ -34,3 +34,5 @@
     }
   }
 }
+
+
