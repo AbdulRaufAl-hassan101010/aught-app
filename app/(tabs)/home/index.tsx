@@ -11,9 +11,11 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Href, Link, router } from "expo-router";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { useGlobalContext } from "@/hooks/useGlobalContext";
 
 const ListHeaderComponent = () => {
   const theme = useThemeColor();
+  const { user } = useGlobalContext();
 
   return (
     <>
@@ -23,7 +25,7 @@ const ListHeaderComponent = () => {
           <View className="flex flex-row items-center gap-x-2">
             <TouchableOpacity>
               <Image
-                source={{ uri: "https://picsum.photos/100/100" }}
+                source={{ uri: user?.image }}
                 className="w-[50px] h-[50px] rounded-full border-2 border-secondary"
                 contentFit="cover"
               />
@@ -36,7 +38,7 @@ const ListHeaderComponent = () => {
                 className="text-lg font-psemibold text-black-100 dark:text-white"
                 numberOfLines={1}
               >
-                Emma's Ent...
+                {user?.name}
               </Text>
             </View>
           </View>

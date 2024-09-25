@@ -10,8 +10,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
 import { Href, Link, router } from "expo-router";
+import { useGlobalContext } from "@/hooks/useGlobalContext";
 
 const signIn = () => {
+  const { signIn, loading } = useGlobalContext();
   const [form, setForm] = useState({
     username: "",
     password: "",
@@ -50,7 +52,8 @@ const signIn = () => {
           <CustomButton
             title="Sign In"
             containerStyle="mt-10"
-            onPress={() => router.replace("/home" as Href)}
+            loading={loading}
+            onPress={() => signIn(form)}
           />
 
           <Text className="dark:text-gray-100 text-gray-400 mt-7 text-center font-pregular text-base">

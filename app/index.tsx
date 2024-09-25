@@ -5,16 +5,30 @@ import {
   Image,
   SafeAreaView,
   TouchableWithoutFeedback,
-  useColorScheme,
+  ActivityIndicator,
 } from "react-native";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { images } from "@/constants";
 import CustomButton from "@/components/CustomButton";
 import { Href, router } from "expo-router";
 
 import { skipOnboardingHandler } from "@/libs/utils";
+import { useGlobalContext } from "@/hooks/useGlobalContext";
+import { useTheme } from "@react-navigation/native";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 const Index = () => {
+  const { loading, loggedIn } = useGlobalContext();
+  const theme = useThemeColor();
+
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center bg-primary">
+        <ActivityIndicator size="large" color={theme.secondarytheme.color} />
+      </View>
+    );
+  }
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView

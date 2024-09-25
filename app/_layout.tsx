@@ -5,17 +5,13 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import "react-native-reanimated";
 
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { isOnboarded } from "@/libs/utils";
+
+import { GlobalProvider } from "@/context/GlobalContent";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  const colorScheme = useColorScheme();
   const [fontLoaded, error] = useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
@@ -31,34 +27,21 @@ export default function RootLayout() {
   useEffect(() => {
     if (fontLoaded) {
       SplashScreen.hideAsync();
-
-      if (loading) {
-        setLoading(false);
-        setLoggedIn(true);
-      } else {
-        isOnboarded();
-      }
     }
   }, [fontLoaded]);
 
-  useEffect(() => {
-    if (!loading && loggedIn) {
-      router.replace("home" as Href);
-    }
-  }, [loading, loggedIn]);
-
-  if (!fontLoaded || loading) {
-    return null;
-  }
-
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-    </Stack>
+    <GlobalProvider>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(onboarding)" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
+    </GlobalProvider>
   );
 }

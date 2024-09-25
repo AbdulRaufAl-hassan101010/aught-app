@@ -1,4 +1,5 @@
 import { icons, images } from "@/constants";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import React, { useState } from "react";
 import {
   TextInputProps,
@@ -16,25 +17,24 @@ type FormFieldProps = {
 
 const FormField = ({ label, ...props }: FormFieldProps) => {
   const [passwordVisibility, setPasswordVisibility] = useState(true);
-  const theme = useColorScheme();
-
-  console.log(theme);
+  const theme = useThemeColor();
 
   return (
     <View className={`mt-7 w-full`}>
       <Text
-        className={`font-pregular text-lg ${
-          theme === "dark" ? "text-gray-100" : "text-gray-400"
-        }`}
+        className={`font-pregular text-lg  text-gray-400 dark:text-gray-100
+        `}
       >
         {label}
       </Text>
-      <View className="flex-row items-center  bg-gray-100 mt-1 rounded-xl h-[62px] w-full justify-between px-3 relative focus:border-secondary focus:border-2 dark:bg-black-100">
+      <View className="flex-row items-center  bg-gray-100 mt-1 rounded-xl h-[62px] w-full justify-between px-3 relative focus:border-secondary focus:border-2 dark:bg-black-100 dark:text-gray-100">
         <TextInput
           {...props}
-          className={`font-pmedium w-full m-h-full dark:text-gray-100 text-primary-dark text-base `}
+          className={`font-pmedium w-full m-h-full  text-primary-dark dark:text-gray-100 text-base `}
           // placeholderTextColor={"#161622"}
           secureTextEntry={props.secureTextEntry && passwordVisibility}
+          placeholderTextColor={theme.text}
+          autoComplete="email"
         />
 
         {props.secureTextEntry && (
