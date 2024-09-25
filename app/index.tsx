@@ -14,23 +14,18 @@ import { Href, router } from "expo-router";
 
 import { skipOnboardingHandler } from "@/libs/utils";
 import { useGlobalContext } from "@/hooks/useGlobalContext";
-import { useTheme } from "@react-navigation/native";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import Spinner from "@/components/Spinner";
 
 const Index = () => {
-  const { loading, loggedIn } = useGlobalContext();
+  const { loading, onboarded, user } = useGlobalContext();
   const theme = useThemeColor();
-
-  if (loading) {
-    return (
-      <View className="flex-1 justify-center items-center bg-primary">
-        <ActivityIndicator size="large" color={theme.secondarytheme.color} />
-      </View>
-    );
+  if ((!user && loading) || onboarded) {
+    return <Spinner />;
   }
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className="bg-primary dark:bg-primary-dark h-full">
       <ScrollView
         contentContainerStyle={{
           height: "100%",
@@ -40,7 +35,7 @@ const Index = () => {
           <Image
             source={images.onboarding1}
             resizeMode="contain"
-            className="w-[380px] h-[280px] ima"
+            className="w-[380px] h-[280px]"
           />
 
           <Text className="text-white mt-7 font-psemibold text-3xl text-center text-wrap">

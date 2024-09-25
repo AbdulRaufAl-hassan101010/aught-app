@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "expo-image";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -15,7 +15,12 @@ import { useGlobalContext } from "@/hooks/useGlobalContext";
 
 const ListHeaderComponent = () => {
   const theme = useThemeColor();
-  const { user } = useGlobalContext();
+  const { user, statistics, fetchStatistics } = useGlobalContext();
+  const [homeLoading, setHomeLoading] = useState(true);
+
+  useEffect(() => {
+    fetchStatistics();
+  }, []);
 
   return (
     <>
@@ -86,7 +91,7 @@ const ListHeaderComponent = () => {
               <Text
                 className={`font-psemibold text-3xl text-white dark:text-gray-100 text-center`}
               >
-                10
+                {statistics?.counts?.countProducts || 0}
               </Text>
             </View>
           </TouchableOpacity>
