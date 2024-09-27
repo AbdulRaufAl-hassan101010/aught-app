@@ -17,16 +17,17 @@ export const ApiRequest = async (
           : undefined,
     });
 
+
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
 
-    const checkouts = await response.json();
+    const data = await response.json();
 
-    return checkouts;
+    return data;
   } catch (error: any) {
     if (error instanceof Error) {
-      Alert.alert("Error", error.message);
+      throw new Error(error.message);
     } else {
       Alert.alert("Error", "An unknown error occurred");
     }

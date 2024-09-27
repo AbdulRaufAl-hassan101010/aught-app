@@ -6,8 +6,8 @@ type CustomViewProps = {} & CustomProps & ViewProps;
 
 const CustomView = ({
   children,
-  lightClassName = "",
-  darkClassName = "",
+  lightClassName,
+  darkClassName,
   globalClassName,
   ...props
 }: CustomViewProps) => {

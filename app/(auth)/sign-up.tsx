@@ -1,13 +1,21 @@
-import { Text, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
-import React, { useState } from "react";
+import {
+  Text,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  Alert,
+} from "react-native";
+import React, { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
 import { Href, Link } from "expo-router";
 import { useTheme } from "@/context/ThemeContext";
+import { useGlobalContext } from "@/hooks/useGlobalContext";
 
 const signUp = () => {
   const theme = useTheme();
+  const { signUp, loading } = useGlobalContext();
 
   const [form, setForm] = useState({
     name: "",
@@ -72,7 +80,17 @@ const signUp = () => {
             keyboardType="visible-password"
           />
 
-          <CustomButton title="Sign Up" containerStyle="mt-10" />
+          <CustomButton
+            title="Sign Up"
+            containerStyle="mt-10"
+            loading={loading}
+            onPress={signUp.bind(null, {
+              businessName: form.name,
+              email: form.email,
+              password: form.password,
+              confirmPassword: form.confirmPassword,
+            })}
+          />
 
           <Text className="text-gray-100 mt-7 text-center font-pregular text-md text-base">
             Already have an account?{" "}

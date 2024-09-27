@@ -1,3 +1,4 @@
+import { ApiRequest } from "@/libs/backend";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Href, router, usePathname } from "expo-router";
 import { createContext, useEffect, useState } from "react";
@@ -25,6 +26,17 @@ export type GlobalContextType = {
   statistics: Statistics | null;
   fetchStatistics: () => void;
   onboarded: boolean | null;
+  signUp: ({
+    businessName,
+    email,
+    password,
+    confirmPassword,
+  }: {
+    businessName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }) => void;
 };
 
 export type User = {
@@ -175,6 +187,66 @@ export const GlobalProvider = ({ children }: GlobalProviderProp) => {
     }
   };
 
+  const signUp = async ({
+    businessName,
+    email,
+    password,
+    confirmPassword,
+  }: {
+    businessName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }) => {
+    setLoading(true);
+    try {
+      // if any of the fields are empty
+      if (!businessName || !email || !password || !confirmPassword) {
+        throw new Error("All fields are required");
+      }
+
+      // if password and confirm password do not match
+      if (password !== confirmPassword) {
+        throw new Error("Passwords do not match");
+      }
+
+      // if email is not valid
+      if (!email.includes("@")) {
+        throw new Error("Invalid email");
+      }
+
+      // if password is less than 8 characters
+      if (password.length < 8) {
+        throw new Error("Password must be at least 8 characters");
+      }
+
+      const response = await ApiRequest(
+        "businesses",
+        "POST",
+        {
+          "Content-Type": "application/json",
+        },
+        {
+          name: businessName,
+          email,
+          password,
+        }
+      );
+
+      Alert.alert("Success", "Account created successfully");
+
+      await signIn({ username: email, password });
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert("Error", error.message);
+      } else {
+        Alert.alert("Error", "An unknown error occurred");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const fetchStatistics = async () => {
     try {
       const response = await fetch(URL + "statistics");
@@ -244,6 +316,7 @@ export const GlobalProvider = ({ children }: GlobalProviderProp) => {
           statistics,
           fetchStatistics,
           onboarded,
+          signUp,
         } as GlobalContextType
       }
     >
