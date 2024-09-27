@@ -8,6 +8,7 @@ type CustomButtonProps = {
   containerStyle?: string;
   titleStyle?: string;
   loading?: boolean;
+  leftIcon?: React.ReactNode;
 } & TouchableOpacityProps;
 
 const CustomButton = ({
@@ -15,21 +16,23 @@ const CustomButton = ({
   containerStyle,
   titleStyle,
   loading,
+  leftIcon,
   ...props
 }: CustomButtonProps) => {
   const theme = useThemeColor();
 
   return (
     <TouchableOpacity
-      className={`text-primary w-full bg-secondary items-center justify-center h-[72px] mt-7 rounded-2xl  ${containerStyle}`}
+      className={`text-primary px-5 bg-secondary flex-row gap-x-1  items-center justify-center h-[62px] mt-7 rounded-lg w-full  ${containerStyle}`}
       activeOpacity={0.7}
       //  disble btn  when loading
       disabled={loading}
       {...props}
     >
-      <Text className={`text-white text-lg font-psemibold ${titleStyle}`}>
+      {leftIcon && leftIcon}
+      <Text className={`text-white text-lg font-pmedium ${titleStyle}`}>
         {loading ? (
-          <ActivityIndicator size={"small"} color={theme.text} />
+          <ActivityIndicator size={"large"} color={theme?.colors.text} />
         ) : (
           title
         )}

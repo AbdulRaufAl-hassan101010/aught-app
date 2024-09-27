@@ -1,9 +1,7 @@
-import { useThemeColor } from "@/hooks/useThemeColor";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Href, router, usePathname } from "expo-router";
 import { createContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
-import { red } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 
 const URL = "https://aught.vercel.app/api/";
 
@@ -29,7 +27,7 @@ export type GlobalContextType = {
   onboarded: boolean | null;
 };
 
-type User = {
+export type User = {
   _id: string;
   createAt: Date;
   email: string;
@@ -38,7 +36,7 @@ type User = {
   verified: boolean;
 };
 
-type Statistics = {
+export type Statistics = {
   counts: {
     countProducts: number;
     countBranches?: number;
@@ -69,8 +67,6 @@ export const GlobalProvider = ({ children }: GlobalProviderProp) => {
       setUser((state) => ({ ...state, ...data }));
       setLoggedIn(true);
     } catch (error) {
-      setLoggedIn(false);
-
       const onboarding = await AsyncStorage.getItem("onboarding");
 
       if (onboarding) {
@@ -78,6 +74,9 @@ export const GlobalProvider = ({ children }: GlobalProviderProp) => {
       } else {
         router.replace("sign-in" as Href);
       }
+
+      setLoggedIn(false);
+      setUser(null);
     } finally {
       setLoading(false);
     }
@@ -200,7 +199,7 @@ export const GlobalProvider = ({ children }: GlobalProviderProp) => {
     setOnboarded(onboarding ? true : false);
 
     if (!loading && onboarding && !loggedIn) {
-      if (!pathname.includes("sign-in")) {
+      if (!pathname.includes("sign-in") && !pathname.includes("sign-up")) {
         router.replace("sign-in" as Href);
       }
     }
@@ -211,11 +210,17 @@ export const GlobalProvider = ({ children }: GlobalProviderProp) => {
   }, []);
 
   useEffect(() => {
-    if (!loading && loggedIn && loggedIn !== null) {
+    if (!loading && loggedIn) {
+      // if user is not  verified, redirect to verify account page
+      if (user && !user.verified) {
+        router.replace("verify-account" as Href);
+      }
+
       if (
         pathname === "sign-in" ||
         pathname === "sign-up" ||
-        pathname === "/"
+        pathname === "/" ||
+        pathname === "verify-account"
       ) {
         router.replace("home" as Href);
       }

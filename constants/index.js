@@ -1,4 +1,6 @@
 import icons from "./icons";
 import images from "./images";
 
-export { icons, images };
+const API_URL = "https://aught.vercel.app/api/";
+
+export { icons, images, API_URL };

@@ -37,16 +37,16 @@ const TabsLayout = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: theme.background,
+          backgroundColor: theme?.colors?.background,
           borderTopWidth: 1,
-          borderTopColor: theme.background,
+          borderTopColor: theme?.colors?.background,
           height: 100,
           width: "100%",
           margin: 0,
           padding: 0,
         },
-        tabBarInactiveTintColor: theme.tint,
-        tabBarActiveTintColor: theme.secondarytheme.color,
+        tabBarInactiveTintColor: theme?.colors?.tint,
+        tabBarActiveTintColor: theme?.colors?.secondarytheme.color,
       }}
     >
       <Tabs.Screen

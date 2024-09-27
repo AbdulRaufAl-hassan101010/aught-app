@@ -27,13 +27,18 @@ const FormField = ({ label, ...props }: FormFieldProps) => {
       >
         {label}
       </Text>
-      <View className="flex-row items-center  bg-gray-100 mt-1 rounded-xl h-[62px] w-full justify-between px-3 relative focus:border-secondary focus:border-2 dark:bg-black-100 dark:text-gray-100">
+      <View
+        className={`flex-row items-center mt-1 rounded-xl h-[62px] w-full justify-between px-3 relative focus:border-secondary focus:border-2  ${
+          theme?.theme === "dark" ? "bg-black-100 text-gray-100" : "bg-gray-100"
+        }`}
+      >
         <TextInput
           {...props}
-          className={`font-pmedium w-full m-h-full  text-primary-dark dark:text-gray-100 text-base `}
-          // placeholderTextColor={"#161622"}
+          className={`font-pmedium w-full m-h-full text-base ${
+            theme?.theme === "dark" ? "text-gray-100" : "text-primary-dark"
+          } `}
           secureTextEntry={props.secureTextEntry && passwordVisibility}
-          placeholderTextColor={theme.text}
+          placeholderTextColor={theme?.colors.text}
           autoComplete="email"
         />
 

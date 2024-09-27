@@ -1,33 +1,43 @@
 import {
-  View,
-  Text,
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Image } from "expo-image";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Href, Link, router } from "expo-router";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { useGlobalContext } from "@/hooks/useGlobalContext";
+import { ApiRequest } from "@/libs/backend";
+import Spinner from "@/components/Spinner";
+import { Statistics, User } from "@/context/GlobalContent";
+import CustomText from "@/components/CustomText";
+import CustomView from "@/components/CustomView";
 
-const ListHeaderComponent = () => {
+type ListHeaderComponentProps = {
+  checkouts: any[];
+  sales: number;
+  statistics: Statistics | null;
+  user: User | null;
+};
+
+const ListHeaderComponent = ({
+  checkouts,
+  sales,
+  user,
+  statistics,
+}: ListHeaderComponentProps) => {
   const theme = useThemeColor();
-  const { user, statistics, fetchStatistics } = useGlobalContext();
-  const [homeLoading, setHomeLoading] = useState(true);
-
-  useEffect(() => {
-    fetchStatistics();
-  }, []);
 
   return (
     <>
-      <View className="flex px-3 py-2">
+      <CustomView className="flex px-3 py-2">
         {/* haeder */}
-        <View className="flex justify-between flex-row items-center mb-7">
-          <View className="flex flex-row items-center gap-x-2">
+        <CustomView className="flex justify-between flex-row items-center mb-7">
+          <CustomView className="flex flex-row items-center gap-x-2">
             <TouchableOpacity>
               <Image
                 source={{ uri: user?.image }}
@@ -35,166 +45,263 @@ const ListHeaderComponent = () => {
                 contentFit="cover"
               />
             </TouchableOpacity>
-            <View className="">
-              <Text className="text-gray-400 font-psemibold text-xs">
+            <CustomView className="">
+              <CustomText
+                className={`text-gray-400 font-psemibold text-xs ${
+                  theme?.theme === "dark" ? "text-gray-100" : "text-gray-600"
+                }`}
+              >
                 Welcome back,
-              </Text>
-              <Text
-                className="text-lg font-psemibold text-black-100 dark:text-white"
+              </CustomText>
+              <CustomText
+                className={`text-lg font-psemibold ${
+                  theme?.theme === "dark" ? "text-gray-100" : "text-black-100"
+                }`}
                 numberOfLines={1}
               >
                 {user?.name}
-              </Text>
-            </View>
-          </View>
+              </CustomText>
+            </CustomView>
+          </CustomView>
           <TouchableOpacity
             activeOpacity={0.6}
             onPress={() => router.push("home/checkout" as Href)}
           >
-            <FontAwesome name="shopping-basket" size={30} color={theme.text} />
+            <FontAwesome
+              name="shopping-basket"
+              size={30}
+              color={theme?.colors.text}
+            />
           </TouchableOpacity>
-        </View>
+        </CustomView>
 
         {/* salse */}
-        <View className="mb-2">
-          <Text
-            className={`font-psemibold text-sm text-gray-400 dark:text-gray-100 mb-3`}
+        <CustomView className="mb-2">
+          <CustomText
+            className={`font-psemibold text-sm  mb-3`}
+            lightClassName="text-gray-400"
+            darkClassName="text-gray-100"
           >
             Store Sales
-          </Text>
+          </CustomText>
           <TouchableOpacity
             activeOpacity={0.9}
-            className="bg-secondary dark:bg-black-200  rounded-lg p-3 flex h-[120px] space-y-1 justify-center shadow-lg"
+            className={`  rounded-lg p-3 flex h-[120px] space-y-1 justify-center shadow-lg ${
+              theme?.theme === "dark" ? " bg-black-200" : " bg-secondary"
+            }`}
           >
-            <Text
-              className={`font-psemibold text-base text-white dark:text-gray-100 `}
+            <CustomText
+              className={`font-psemibold text-sm`}
+              lightClassName="text-white"
+              darkClassName="text-gray-100"
             >
-              Weeekly
-            </Text>
-            <Text
-              className={`font-psemibold text-3xl text-white dark:text-gray-100`}
+              Todays Sales
+            </CustomText>
+            <CustomText
+              className={`font-psemibold text-3xl`}
+              lightClassName="text-white"
+              darkClassName="text-gray-100"
             >
-              $1,000
-            </Text>
+              ₵{parseFloat(sales.toString()).toFixed(2)}
+            </CustomText>
           </TouchableOpacity>
-        </View>
+        </CustomView>
 
         {/* links */}
-        <View className="mb-10 flex-row gap-x-2">
-          <TouchableOpacity className=" bg-purple-500 dark:bg-black-200  rounded-lg p-3 flex h-[90px] space-y-1 justify-center items-center shadow-lg flex-1">
-            <View>
-              <Text
-                className={`font-pregular text-xs text-white dark:text-gray-100`}
+        <CustomView className="mb-10 flex-row gap-x-2">
+          <TouchableOpacity
+            className={`rounded-lg p-3 flex h-[100px] space-y-1 justify-center items-center shadow-lg flex-1 ${
+              theme?.theme === "dark"
+                ? "text-gray-100 bg-black-200"
+                : "text-white  bg-purple-500"
+            }`}
+          >
+            <CustomView>
+              <CustomText
+                className={`font-pregular text-xs`}
+                darkClassName="text-gray-100"
+                lightClassName="text-white"
               >
                 Products
-              </Text>
-              <Text
-                className={`font-psemibold text-3xl text-white dark:text-gray-100 text-center`}
+              </CustomText>
+              <CustomText
+                className={`font-psemibold text-3xl text-center`}
+                darkClassName="text-gray-100"
+                lightClassName="text-white"
               >
                 {statistics?.counts?.countProducts || 0}
-              </Text>
-            </View>
+              </CustomText>
+            </CustomView>
           </TouchableOpacity>
-          <TouchableOpacity className=" bg-primary-dark dark:bg-black-200  rounded-lg p-3 flex h-[90px] space-y-1 justify-center items-center shadow-lg flex-1">
-            <View className="flex items-center">
-              <Text
-                className={`font-pregular text-xs text-white dark:text-gray-100`}
+          <TouchableOpacity
+            className={`rounded-lg p-3 flex h-[100px] space-y-1 justify-center items-center shadow-lg flex-1 ${
+              theme?.theme === "dark"
+                ? "text-gray-100 bg-black-200"
+                : "text-primary-dark  bg-primary-dark"
+            }`}
+          >
+            <CustomView className="flex items-center">
+              <CustomText
+                className={`font-pregular text-xs`}
+                lightClassName="text-white"
+                darkClassName="text-gray-100"
               >
                 Checkouts
-              </Text>
+              </CustomText>
               <FontAwesome name="shopping-basket" size={34} color="white" />
-            </View>
+            </CustomView>
           </TouchableOpacity>
-        </View>
-      </View>
+        </CustomView>
+      </CustomView>
 
-      <View className="bg-white dark:bg-primary-dark flex-1 flex px-3 py-5 rounded-t-3xl shadow-2xl mb-7">
-        <View className="flex-row justify-between items-center flex">
-          <Text className="font-psemibold text-sm dark:text-gray-100">
+      <CustomView
+        className={`bg-white  flex-1 flex px-3 py-5 rounded-t-3xl shadow-2xl mb-7 min-h-[400px] h-full ${
+          theme?.theme === "dark" ? " bg-black-200" : " bg-white"
+        }`}
+      >
+        <CustomView className="flex-row justify-between items-center flex">
+          <CustomText
+            className={`font-psemibold text-sm  ${
+              theme?.theme === "dark" ? " text-gray-100" : " text-primary-dark"
+            }`}
+          >
             Recent sales
-          </Text>
+          </CustomText>
           <TouchableOpacity className="justify-center items-center flex-row">
-            <AntDesign name="arrowright" size={30} />
+            <AntDesign name="arrowright" size={30} color={theme?.colors.text} />
           </TouchableOpacity>
-        </View>
+        </CustomView>
 
-        <View className="mt-7">
+        <CustomView className="mt-7">
           <FlatList
-            data={[
-              {
-                id: "1",
-                name: "Product name",
-                price: "$100",
-                image: "https://picsum.photos/100/100",
-              },
-              {
-                id: "2",
-                name: "Product name",
-                price: "$100",
-                image: "https://picsum.photos/100/100",
-              },
-              {
-                id: "3",
-                name: "Product name",
-                price: "$100",
-                image: "https://picsum.photos/100/100",
-              },
-            ]}
+            data={checkouts ?? []}
             renderItem={() => (
               <TouchableOpacity
                 activeOpacity={0.6}
-                className="bg-white dark:bg-black-200 rounded-lg p-3 flex h-[90px] space-y-1  shadow-lg mb-2"
+                className={`bg-white rounded-lg p-3 flex h-[90px] space-y-1  shadow-lg mb-2 justify-center ${
+                  theme?.theme === "dark" ? " bg-black" : " bg-white"
+                }`}
               >
-                <View className="flex-row items-center gap-x-2">
+                <CustomView className="flex-row items-center gap-x-2">
                   <Image
                     source={{ uri: "https://picsum.photos/100/100" }}
                     className="w-[50px] h-[50px] rounded-full border-2 border-secondary"
                     contentFit="cover"
                   />
-                  <View className="">
-                    <Text
+                  <CustomView className="">
+                    <CustomText
                       className="text-gray-400 font-psemibold text-xs"
                       numberOfLines={1}
                     >
                       Product name
-                    </Text>
-                    <Text
+                    </CustomText>
+                    <CustomText
                       className="text-lg font-psemibold text-black-100 dark:text-white"
                       numberOfLines={1}
                     >
                       $100
-                    </Text>
-                  </View>
-                </View>
+                    </CustomText>
+                  </CustomView>
+                </CustomView>
               </TouchableOpacity>
             )}
-            ListFooterComponent={() => (
-              <TouchableOpacity
-                activeOpacity={0.6}
-                onPress={() => router.push("home/sales" as Href)}
-                className="bg-primary dark:bg-primary-dark rounded-lg p-3 flex h-[50px] space-y-1 justify-center items-center shadow-lg"
-              >
-                <Text
-                  className={`font-psemibold text-sm text- dark:text-gray-100`}
+            ListFooterComponent={() =>
+              checkouts.length > 0 ? (
+                <TouchableOpacity
+                  activeOpacity={0.6}
+                  onPress={() => router.push("home/sales" as Href)}
+                  className={`bg-primary dark:bg-primary-dark rounded-lg p-3 flex h-[60px] space-y-1 justify-center items-center shadow-lg mt-5 ${
+                    theme?.theme === "dark" ? " bg-black" : " bg-white"
+                  }`}
                 >
-                  View all sales
-                </Text>
-              </TouchableOpacity>
-            )}
+                  <CustomText
+                    className={`font-psemibold text-sm  ${
+                      theme?.theme === "dark"
+                        ? " text-gray-100"
+                        : " text-primary-dark"
+                    }`}
+                  >
+                    CustomView all sales
+                  </CustomText>
+                </TouchableOpacity>
+              ) : (
+                <CustomView>
+                  <CustomText
+                    className={`font-psemibold text-sm  text-center ${
+                      theme?.theme === "dark"
+                        ? " text-gray-100"
+                        : " text-primary-dark"
+                    }`}
+                  >
+                    No sales found
+                  </CustomText>
+                </CustomView>
+              )
+            }
           />
-        </View>
-      </View>
+        </CustomView>
+      </CustomView>
     </>
   );
 };
 
 const Home = () => {
+  const theme = useThemeColor();
+  const { user, statistics, fetchStatistics } = useGlobalContext();
+  const [homeLoading, setHomeLoading] = useState(true);
+  const [checkouts, setCheckouts] = useState([]);
+  const [sales, setSales] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+
+    setHomeLoading(true);
+    fetchData().finally(() => setHomeLoading(false));
+  }, []);
+
+  const fetchData = useCallback(async () => {
+    return Promise.all([
+      ApiRequest("checkouts?limit=6"),
+      ApiRequest("checkouts/statistics"),
+      fetchStatistics(),
+    ]).then(([checkoutsResult, salesResult]) => {
+      setCheckouts(checkoutsResult);
+      setSales(salesResult?.grandTotal ?? 0);
+    });
+  }, []);
+
+  if (homeLoading) return <Spinner />;
+
   return (
-    <SafeAreaView className="bg-primary flex-1 dark:bg-primary-dark">
+    <SafeAreaView
+      className={`flex-1 ${
+        theme?.theme === "dark" ? "bg-black" : "bg-primary"
+      }`}
+    >
       <FlatList
         data={[]}
-        ListHeaderComponent={ListHeaderComponent}
+        ListHeaderComponent={
+          <ListHeaderComponent
+            checkouts={checkouts}
+            sales={sales}
+            user={user}
+            statistics={statistics}
+          />
+        }
         renderItem={() => null}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => {
+              setRefreshing(true);
+              fetchData().finally(() => setRefreshing(false));
+            }}
+            tintColor={theme?.colors.secondarytheme.color}
+            titleColor={theme?.colors.secondarytheme.color}
+          />
+        }
+        indicatorStyle="white"
       />
     </SafeAreaView>
   );

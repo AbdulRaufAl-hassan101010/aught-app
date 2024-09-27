@@ -4,8 +4,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
 import { Href, Link } from "expo-router";
+import { useTheme } from "@/context/ThemeContext";
 
 const signUp = () => {
+  const theme = useTheme();
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -21,16 +24,25 @@ const signUp = () => {
   };
 
   return (
-    <SafeAreaView className="bg-primary h-full dark:bg-primary-dark">
+    <SafeAreaView
+      className={`flex flex-1 ${
+        theme.theme === "dark" ? "bg-primary-dark" : "bg-primary"
+      }`}
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS ? "padding" : "height"}
         style={{ flex: 1 }}
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : -500}
       >
         <ScrollView className="w-full h-full px-4">
-          <Text className="mt-7 font-psemibold text-3xl text-wrap text-primary-dark dark:text-white">
+          <Text
+            className={`mt-7 font-psemibold text-3xl text-wrap ${
+              theme?.theme === "dark" ? "text-white" : "text-primary-dark"
+            }`}
+          >
             Sign Up
           </Text>
+
           <FormField
             label={"Business Name*"}
             onChangeText={changeTextHandler.bind(null, "name")}

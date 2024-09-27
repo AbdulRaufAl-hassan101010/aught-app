@@ -11,9 +11,12 @@ import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
 import { Href, Link, router } from "expo-router";
 import { useGlobalContext } from "@/hooks/useGlobalContext";
+import { useTheme } from "@/context/ThemeContext";
 
 const signIn = () => {
   const { signIn, loading } = useGlobalContext();
+  const theme = useTheme();
+
   const [form, setForm] = useState({
     username: "",
     password: "",
@@ -27,10 +30,18 @@ const signIn = () => {
   };
 
   return (
-    <SafeAreaView className=" bg-primary  dark:bg-primary-dark h-full">
+    <SafeAreaView
+      className={`flex flex-1 ${
+        theme.theme === "dark" ? "bg-primary-dark" : "bg-primary"
+      }`}
+    >
       <ScrollView className="w-full h-full px-4">
         <KeyboardAvoidingView behavior="position" className="flex-1">
-          <Text className=" text-primary-dark mt-7 font-psemibold text-3xl text-wrap dark:text-white">
+          <Text
+            className={`mt-7 font-psemibold text-3xl text-wrap ${
+              theme?.theme === "dark" ? "text-white" : "text-primary-dark"
+            }`}
+          >
             Sign In
           </Text>
 
