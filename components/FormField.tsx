@@ -13,11 +13,13 @@ import {
 type FormFieldProps = {
   label?: string;
   containerStyle?: string;
+  secureTextEntry?: boolean;
 } & TextInputProps;
 
 const FormField = ({
   label,
   containerStyle = " ",
+  secureTextEntry,
   ...props
 }: FormFieldProps) => {
   const [passwordVisibility, setPasswordVisibility] = useState(true);
@@ -44,12 +46,12 @@ const FormField = ({
           className={`font-pmedium w-full m-h-full text-base ${
             theme?.theme === "dark" ? "text-gray-100" : "text-primary-dark"
           } ${props.className}`}
-          secureTextEntry={props.secureTextEntry && passwordVisibility}
+          secureTextEntry={secureTextEntry && passwordVisibility}
           placeholderTextColor={theme?.colors.text}
           {...props}
         />
 
-        {props.secureTextEntry && (
+        {secureTextEntry && (
           <TouchableWithoutFeedback
             onPress={() => setPasswordVisibility((state) => !state)}
           >
