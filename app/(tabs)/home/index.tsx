@@ -110,7 +110,7 @@ const ListHeaderComponent = ({
         {/* links */}
         <CustomView className="mb-10 flex-row gap-x-2">
           <TouchableOpacity
-            className={`rounded-lg p-3 flex h-[100px] space-y-1 justify-center items-center shadow-lg flex-1 ${
+            className={`rounded-lg p-3 flex h-[150px] space-y-1 justify-center items-center shadow-lg flex-1 ${
               theme?.theme === "dark"
                 ? "text-gray-100 bg-black-200"
                 : "text-white  bg-purple-500"
@@ -134,7 +134,7 @@ const ListHeaderComponent = ({
             </CustomView>
           </TouchableOpacity>
           <TouchableOpacity
-            className={`rounded-lg p-3 flex h-[100px] space-y-1 justify-center items-center shadow-lg flex-1 ${
+            className={`rounded-lg p-3 flex h-[150px] space-y-1 justify-center items-center shadow-lg flex-1 ${
               theme?.theme === "dark"
                 ? "text-gray-100 bg-black-200"
                 : "text-primary-dark  bg-primary-dark"

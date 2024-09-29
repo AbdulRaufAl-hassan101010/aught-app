@@ -3,7 +3,7 @@ import {
   Text,
   KeyboardAvoidingView,
   ScrollView,
-  useColorScheme,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,6 +12,8 @@ import CustomButton from "@/components/CustomButton";
 import { Href, Link, router } from "expo-router";
 import { useGlobalContext } from "@/hooks/useGlobalContext";
 import { useTheme } from "@/context/ThemeContext";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import CustomView from "@/components/CustomView";
 
 const signIn = () => {
   const { signIn, loading } = useGlobalContext();
@@ -37,13 +39,18 @@ const signIn = () => {
     >
       <ScrollView className="w-full h-full px-4">
         <KeyboardAvoidingView behavior="position" className="flex-1">
-          <Text
-            className={`mt-7 font-psemibold text-3xl text-wrap ${
-              theme?.theme === "dark" ? "text-white" : "text-primary-dark"
-            }`}
-          >
-            Sign In
-          </Text>
+          <CustomView globalClassName="flex flex-row gap-x-1 items-center mt-7">
+            <TouchableOpacity onPress={() => router.back()}>
+              <AntDesign name="arrowleft" size={32} color={theme.colors.tint} />
+            </TouchableOpacity>
+            <Text
+              className={`font-psemibold text-3xl text-wrap ${
+                theme?.theme === "dark" ? "text-white" : "text-primary-dark"
+              }`}
+            >
+              Sign In
+            </Text>
+          </CustomView>
 
           <FormField
             label={"username"}

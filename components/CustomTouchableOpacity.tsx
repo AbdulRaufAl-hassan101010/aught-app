@@ -1,20 +1,20 @@
-import { ScrollViewProps, ScrollView } from "react-native";
+import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 import React from "react";
 import { useTheme } from "@/context/ThemeContext";
 
-type CustomScrollViewProps = {} & CustomProps & ScrollViewProps;
+type CustomTouchableOpacityProps = {} & CustomProps & TouchableOpacityProps;
 
-const CustomScrollView = ({
+const CustomTouchableOpacity = ({
   children,
   lightClassName = "",
   darkClassName = "",
   globalClassName = "",
   ...props
-}: CustomScrollViewProps) => {
+}: CustomTouchableOpacityProps) => {
   const theme = useTheme();
 
   return (
-    <ScrollView
+    <TouchableOpacity
       className={
         theme?.theme === "dark"
           ? `${globalClassName} ${darkClassName}`
@@ -23,8 +23,8 @@ const CustomScrollView = ({
       {...props}
     >
       {children}
-    </ScrollView>
+    </TouchableOpacity>
   );
 };
 
-export default CustomScrollView;
+export default CustomTouchableOpacity;

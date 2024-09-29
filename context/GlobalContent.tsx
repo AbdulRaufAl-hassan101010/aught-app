@@ -68,6 +68,7 @@ export const GlobalProvider = ({ children }: GlobalProviderProp) => {
   const pathname = usePathname();
 
   const fetchUser = async () => {
+    const onboarding = await AsyncStorage.getItem("onboarding");
     try {
       // get logged in user data
       const response = await fetch(URL + "me");
@@ -79,16 +80,12 @@ export const GlobalProvider = ({ children }: GlobalProviderProp) => {
       setUser((state) => ({ ...state, ...data }));
       setLoggedIn(true);
     } catch (error) {
-      const onboarding = await AsyncStorage.getItem("onboarding");
-
-      if (onboarding) {
-        router.replace("" as Href);
-      } else {
-        router.replace("sign-in" as Href);
-      }
-
       setLoggedIn(false);
       setUser(null);
+
+      if (onboarding) {
+        router.replace("(auth)" as Href);
+      }
     } finally {
       setLoading(false);
     }
@@ -175,7 +172,7 @@ export const GlobalProvider = ({ children }: GlobalProviderProp) => {
       setLoggedIn(false);
       setUser(null);
 
-      router.replace("sign-in" as Href);
+      router.replace("(auth)" as Href);
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert("Error", error.message);
@@ -265,20 +262,9 @@ export const GlobalProvider = ({ children }: GlobalProviderProp) => {
     }
   };
 
-  const checkOnboarding = async () => {
-    const onboarding = await AsyncStorage.getItem("onboarding");
-
-    setOnboarded(onboarding ? true : false);
-
-    if (!loading && onboarding && !loggedIn) {
-      if (!pathname.includes("sign-in") && !pathname.includes("sign-up")) {
-        router.replace("sign-in" as Href);
-      }
-    }
-  };
-
   useEffect(() => {
     fetchUser();
+    console.log(133);
   }, []);
 
   useEffect(() => {
@@ -288,6 +274,7 @@ export const GlobalProvider = ({ children }: GlobalProviderProp) => {
         router.replace("verify-account" as Href);
       }
 
+      // redirect to home page if user is logged in
       if (
         pathname === "sign-in" ||
         pathname === "sign-up" ||
@@ -299,9 +286,9 @@ export const GlobalProvider = ({ children }: GlobalProviderProp) => {
     }
   }, [pathname, loading, loggedIn]);
 
-  useEffect(() => {
-    checkOnboarding();
-  }, [pathname, loading, loggedIn]);
+  // useEffect(() => {
+  //   checkOnboarding();
+  // }, [pathname, loading, loggedIn]);
 
   return (
     <GlobalContext.Provider

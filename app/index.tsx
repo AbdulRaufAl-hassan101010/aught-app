@@ -19,7 +19,7 @@ import Spinner from "@/components/Spinner";
 
 const Index = () => {
   const { loading, onboarded, user } = useGlobalContext();
-  const theme = useThemeColor();
+
   if ((!user && loading) || onboarded) {
     return <Spinner />;
   }
