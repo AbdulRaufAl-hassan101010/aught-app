@@ -6,7 +6,7 @@ import CustomText from "@/components/CustomText";
 import CustomTouchableOpacity from "@/components/CustomTouchableOpacity";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useTheme } from "@/context/ThemeContext";
-import { router } from "expo-router";
+import { Href, router } from "expo-router";
 
 const Auth = () => {
   const theme = useTheme();
@@ -61,7 +61,7 @@ const Auth = () => {
             globalClassName=" flex flex-1 justify-center items-center h-[170px] rounded-lg shadow-sm"
             lightClassName="bg-secondary"
             darkClassName="bg-black-200"
-            onPress={() => router.push(`sign-in?${item.key}`)}
+            onPress={() => router.push(`sign-in?${item.key}` as Href)}
           >
             {item.icon && item.icon}
 

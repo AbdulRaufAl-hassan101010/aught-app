@@ -1,33 +1,27 @@
 import React from "react";
 import { useTheme } from "@/context/ThemeContext";
-import {
-  SafeAreaView,
-  SafeAreaViewProps,
-} from "react-native-safe-area-context";
+import { FlatList, FlatListProps } from "react-native";
 
-type CustomSafeAreaViewProps = {} & CustomProps & SafeAreaViewProps;
+type CustomFlatListProps<ItemT> = {} & CustomProps & FlatListProps<ItemT>;
 
-const CustomSafeAreaView = ({
-  children,
+const CustomFlatList = <ItemT,>({
   lightClassName = "",
   darkClassName = "",
   globalClassName,
   ...props
-}: CustomSafeAreaViewProps) => {
+}: CustomFlatListProps<ItemT>) => {
   const theme = useTheme();
 
   return (
-    <SafeAreaView
+    <FlatList
       className={
         theme?.theme === "dark"
           ? `${globalClassName} ${darkClassName}`
           : `${globalClassName} ${lightClassName}`
       }
       {...props}
-    >
-      {children}
-    </SafeAreaView>
+    />
   );
 };
 
-export default CustomSafeAreaView;
+export default CustomFlatList;

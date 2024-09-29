@@ -264,7 +264,6 @@ export const GlobalProvider = ({ children }: GlobalProviderProp) => {
 
   useEffect(() => {
     fetchUser();
-    console.log(133);
   }, []);
 
   useEffect(() => {
