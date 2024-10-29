@@ -63,8 +63,7 @@ const signIn = () => {
             label={"Password"}
             onChangeText={changeTextHandler.bind(null, "password")}
             value={form.password}
-            secureTextEntry
-            keyboardType="visible-password"
+            secureTextEntry={true}
           />
 
           <CustomButton
