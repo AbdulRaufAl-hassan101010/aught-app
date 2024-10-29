@@ -38,7 +38,7 @@ const signIn = () => {
       }`}
     >
       <ScrollView className="w-full h-full px-4">
-        <KeyboardAvoidingView behavior="position" className="flex-1">
+        <KeyboardAvoidingView behavior="position" className="flex flex-1">
           <CustomView globalClassName="flex flex-row gap-x-1 items-center mt-7">
             <TouchableOpacity onPress={() => router.back()}>
               <AntDesign name="arrowleft" size={32} color={theme.colors.tint} />
@@ -66,12 +66,14 @@ const signIn = () => {
             secureTextEntry={true}
           />
 
-          <CustomButton
-            title="Sign In"
-            containerStyle="mt-10"
-            loading={loading}
-            onPress={() => signIn(form)}
-          />
+          <CustomView className="">
+            <CustomButton
+              title="Sign In"
+              containerStyle="mt-10"
+              loading={loading}
+              onPress={() => signIn(form)}
+            />
+          </CustomView>
 
           <Text className="dark:text-gray-100 text-gray-400 mt-7 text-center font-pregular text-base">
             Don't have an account?{" "}
