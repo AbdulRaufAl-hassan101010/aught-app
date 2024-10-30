@@ -1,6 +1,7 @@
 import { View, Text, FlatList, SafeAreaView, Switch } from "react-native";
 import React, { useEffect } from "react";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import CustomSafeAreaView from "@/components/CustomSafeAreaView";
 
 const ListHeaderComponent = () => {
   const theme = useThemeColor();
@@ -50,7 +51,7 @@ const ListHeaderComponent = () => {
 const Appearance = () => {
   const theme = useThemeColor();
   return (
-    <SafeAreaView
+    <CustomSafeAreaView
       className={`flex-1 ${
         theme?.theme === "dark" ? "bg-primary-dark" : "bg-primary"
       }`}
@@ -60,7 +61,7 @@ const Appearance = () => {
         ListHeaderComponent={ListHeaderComponent}
         renderItem={() => null}
       />
-    </SafeAreaView>
+    </CustomSafeAreaView>
   );
 };
 

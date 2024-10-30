@@ -12,6 +12,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Href, router } from "expo-router";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { useGlobalContext } from "@/hooks/useGlobalContext";
+import CustomSafeAreaView from "@/components/CustomSafeAreaView";
 
 const ListHeaderComponent = () => {
   const theme = useThemeColor();
@@ -127,7 +128,7 @@ const Home = () => {
   const theme = useThemeColor();
 
   return (
-    <SafeAreaView
+    <CustomSafeAreaView
       className={`flex-1 ${
         theme?.theme === "dark" ? "bg-primary-dark" : "bg-primary"
       }`}
@@ -137,7 +138,7 @@ const Home = () => {
         ListHeaderComponent={ListHeaderComponent}
         renderItem={() => null}
       />
-    </SafeAreaView>
+    </CustomSafeAreaView>
   );
 };
 

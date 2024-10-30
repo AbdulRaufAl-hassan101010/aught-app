@@ -16,6 +16,7 @@ import Spinner from "@/components/Spinner";
 import { Statistics, User } from "@/context/GlobalContent";
 import CustomText from "@/components/CustomText";
 import CustomView from "@/components/CustomView";
+import CustomSafeAreaView from "@/components/CustomSafeAreaView";
 
 type ListHeaderComponentProps = {
   checkouts: any[];
@@ -274,7 +275,7 @@ const Home = () => {
   if (homeLoading) return <Spinner />;
 
   return (
-    <SafeAreaView
+    <CustomSafeAreaView
       className={`flex-1 ${
         theme?.theme === "dark" ? "bg-black" : "bg-primary"
       }`}
@@ -303,7 +304,7 @@ const Home = () => {
         }
         indicatorStyle="white"
       />
-    </SafeAreaView>
+    </CustomSafeAreaView>
   );
 };
 
