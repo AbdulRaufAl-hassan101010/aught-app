@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  FlatList,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, FlatList, SafeAreaView } from "react-native";
 import React from "react";
 import { Image } from "expo-image";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -13,10 +7,13 @@ import { Href, router } from "expo-router";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { useGlobalContext } from "@/hooks/useGlobalContext";
 import CustomSafeAreaView from "@/components/CustomSafeAreaView";
+import CustomTouchableOpacity from "@/components/CustomTouchableOpacity";
 
 const ListHeaderComponent = () => {
   const theme = useThemeColor();
   const { user, signOut } = useGlobalContext();
+
+  // console.log(user?.image);
 
   return (
     <>
@@ -36,14 +33,12 @@ const ListHeaderComponent = () => {
             theme?.theme === "dark" ? "bg-black-200 " : "bg-white text-gray-100"
           }`}
         >
-          <TouchableOpacity
+          <CustomTouchableOpacity
             onPress={() => router.push("/settings/profile" as Href)}
+            globalClassName={`w-16 h-16 rounded-full border-secondary border-2 overflow-hidden`}
           >
-            <Image
-              source={user?.image}
-              className="w-16 h-16 rounded-full border-secondary border-2"
-            />
-          </TouchableOpacity>
+            <Image source={user?.image} className="w-full h-full" />
+          </CustomTouchableOpacity>
 
           <View className="flex-1 ml-3">
             <Text
@@ -69,7 +64,9 @@ const ListHeaderComponent = () => {
             theme?.theme === "dark" ? "bg-black-200" : "bg-white"
           }`}
         >
-          <TouchableOpacity>
+          <CustomTouchableOpacity
+            onPress={() => router.push("/settings/profile" as Href)}
+          >
             <View className="flex flex-row items-center justify-between rounded-lg py-5 border-b-[0.35px] border-b-slate-300 dark:border-b-gra-100">
               <View className="flex flex-row items-center">
                 <AntDesign name="user" size={20} color={theme?.colors?.text} />
@@ -86,8 +83,8 @@ const ListHeaderComponent = () => {
 
               <AntDesign name="right" size={20} color={theme?.colors?.text} />
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity
+          </CustomTouchableOpacity>
+          <CustomTouchableOpacity
             onPress={() => router.push("/settings/appearance" as Href)}
           >
             <View className="flex flex-row items-center justify-between  rounded-lg pt-5 pb-5 ">
@@ -110,15 +107,15 @@ const ListHeaderComponent = () => {
 
               <AntDesign name="right" size={20} color={theme?.colors?.text} />
             </View>
-          </TouchableOpacity>
+          </CustomTouchableOpacity>
         </View>
 
-        <TouchableOpacity onPress={signOut}>
+        <CustomTouchableOpacity onPress={signOut}>
           <Text className="text-center font-pmedium text-sm mt-10 text-secondary dark:text-gray-100">
             Logout{" "}
             <AntDesign name="logout" size={16} color={theme?.colors?.text} />
           </Text>
-        </TouchableOpacity>
+        </CustomTouchableOpacity>
       </View>
     </>
   );

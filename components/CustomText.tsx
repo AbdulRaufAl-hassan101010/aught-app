@@ -18,7 +18,7 @@ const CustomText = ({
       className={
         theme.theme === "dark"
           ? `${globalClassName} text-gray-100 ${darkClassName}`
-          : `${globalClassName} text-gray-500 ${lightClassName}`
+          : `${globalClassName} text-primary-dark ${lightClassName}`
       }
       {...props}
     >

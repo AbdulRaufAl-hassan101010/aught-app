@@ -4,6 +4,7 @@ import { TouchableOpacityProps } from "react-native-gesture-handler";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import CustomView from "./CustomView";
 
+
 type CustomButtonProps = {
   title: string;
   containerStyle?: string;
@@ -31,7 +32,7 @@ const CustomButton = ({
       {...props}
     >
       {leftIcon && <CustomView className="mr-1">{leftIcon}</CustomView>}
-      <Text className={`text-white text-lg font-pmedium ${titleStyle}`}>
+      <Text className={`text-white text-base font-pmedium ${titleStyle}`}>
         {loading ? (
           <ActivityIndicator size={"large"} color={theme?.colors.text} />
         ) : (

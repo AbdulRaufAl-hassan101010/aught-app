@@ -26,7 +26,7 @@ type ListComponentProps = {
 
 const ListHeaderComponent = ({ products }: ListComponentProps) => {
   return (
-    <CustomSafeAreaView globalClassName=" flex-1 mx-3">
+    <CustomSafeAreaView globalClassName=" flex-1 mx-3 mb-5">
       <CustomView className="flex-1">
         <CustomText
           globalClassName="text-2xl font-psemibold"

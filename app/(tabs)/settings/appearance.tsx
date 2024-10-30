@@ -2,35 +2,38 @@ import { View, Text, FlatList, SafeAreaView, Switch } from "react-native";
 import React, { useEffect } from "react";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import CustomSafeAreaView from "@/components/CustomSafeAreaView";
+import CustomView from "@/components/CustomView";
+import Header from "@/components/Header";
+import { AntDesign } from "@expo/vector-icons";
+import { router } from "expo-router";
+import CustomText from "@/components/CustomText";
 
 const ListHeaderComponent = () => {
   const theme = useThemeColor();
 
   return (
     <>
-      <View className="flex px-3 py-2 ">
-        <View className="sticky top-0">
-          <Text
-            className={`text-2xl font-psemibold mb-5 ${
-              theme?.theme === "dark" ? "text-gray-100" : "text-primary-dark"
-            }`}
-          >
-            Appearance
-          </Text>
-        </View>
+      <CustomView className="flex px-3 py-2 ">
+        <Header
+          leftIcon={
+            <AntDesign name="left" size={25} color={theme?.colors.tint} />
+          }
+          leftIconPress={() => router.back()}
+          title="Appearance"
+        />
 
-        <View
-          className={`px-3 py-4 flex flex-row justify-between items-center shadow-2xl rounded-xl ${
-            theme?.theme === "dark" ? "bg-black-200 " : "bg-white text-gray-100"
-          }`}
+        <CustomView
+          globalClassName={`px-3 py-4 flex flex-row justify-between items-center   rounded-xl mt-5`}
+          darkClassName="bg-black-200"
+          lightClassName="bg-white text-gray-100 shadow-sm border-2 border-gray-200"
         >
-          <Text
+          <CustomText
             className={`font-pmedium  ${
               theme?.theme === "dark" ? "text-gray-100" : "text-primary-dark"
             }`}
           >
             Dark mode
-          </Text>
+          </CustomText>
           <Switch
             ios_backgroundColor={theme?.colors.background}
             trackColor={{
@@ -42,8 +45,8 @@ const ListHeaderComponent = () => {
               theme?.saveTheme(value ? "dark" : "light")
             }
           />
-        </View>
-      </View>
+        </CustomView>
+      </CustomView>
     </>
   );
 };

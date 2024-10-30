@@ -56,7 +56,7 @@ const TabsLayout = () => {
               icon={<AntDesign name="home" size={24} color={color} />}
               color={color}
               focused={focused}
-              name={"home"}
+              name={"Home"}
             />
           ),
         }}
@@ -82,7 +82,7 @@ const TabsLayout = () => {
               icon={<AntDesign name="search1" size={24} color={color} />}
               color={color}
               focused={focused}
-              name={"search"}
+              name={"Search"}
             />
           ),
         }}

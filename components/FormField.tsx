@@ -43,7 +43,7 @@ const FormField = ({
         }`}
       >
         <TextInput
-          className={`font-pmedium w-full m-h-full text-base ${
+          className={`font-pmedium w-full h-full text-base mt-1 ${
             theme?.theme === "dark" ? "text-gray-100" : "text-primary-dark"
           } ${props.className}`}
           secureTextEntry={secureTextEntry && passwordVisibility}

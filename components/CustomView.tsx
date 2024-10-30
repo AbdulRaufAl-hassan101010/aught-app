@@ -6,9 +6,9 @@ type CustomViewProps = {} & CustomProps & ViewProps;
 
 const CustomView = ({
   children,
-  lightClassName,
-  darkClassName,
-  globalClassName,
+  lightClassName = "",
+  darkClassName = "",
+  globalClassName = "",
   ...props
 }: CustomViewProps) => {
   const theme = useTheme();
